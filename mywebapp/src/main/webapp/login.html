@@ -5,12 +5,24 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form>
+<div id="msg"></div>
+<form method="post" action="login">
 Enter username : <input type="text" name="uname" /> <br />
 Enter password : <input type="password" name="pwd" /> <br />
 <img src="captcha.jpg" /> <br />
 Captcha : <input type="text" name="captchaInput" /> <br />
 <button type="submit">Login</button>
 </form>
+<script>
+	function getParam(param){
+	  return new URLSearchParams(window.location.search).get(param);
+	}
+	
+	var error = getParam("error");
+	if(error == 1)
+		document.getElementById("msg").innerHTML = "<b>Captcha Validation failed</b>";
+	else if(error == 2)
+		document.getElementById("msg").innerHTML = "<b>Invalid Username/Password</b>";
+</script>
 </body>
 </html>

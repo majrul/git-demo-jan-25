@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class CaptchaServlet
@@ -30,6 +31,9 @@ public class CaptchaServlet extends HttpServlet {
 			int rno = (int) (Math.random() * str.length());
 			captcha += str.charAt(rno);
 		}
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("generatedCaptcha", captcha);
 		
 		BufferedImage img = new BufferedImage(150, 60, BufferedImage.TYPE_INT_RGB);
 		Graphics g = img.getGraphics();
