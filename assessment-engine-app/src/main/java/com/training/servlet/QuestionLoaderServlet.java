@@ -19,19 +19,29 @@ import com.training.datamodel.QuestionBankLoader;
 @WebServlet("/QuestionLoaderServlet")
 public class QuestionLoaderServlet extends HttpServlet {
 
-	int qNo = 0;
+	//int qNo = 0;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+	
+		Integer qNo = (Integer) session.getAttribute("qNo");
+		if(qNo == null)
+			qNo = 0;
+		
 		
 		QuestionBankLoader qbLoader = new QuestionBankLoader();
 		List<Question> questions = qbLoader.loadQuestionsOnJava();
 		
-		Question q = questions.get(qNo++);
+		if(qNo < questions.size()) {
+			Question q = questions.get(qNo++);
 		
-		session.setAttribute("question", q);
-		response.sendRedirect("displayQuestion.jsp");
+			session.setAttribute("qNo", qNo);
+			session.setAttribute("question", q);
 		
+			response.sendRedirect("displayQuestion.jsp");
+		}
+		else
+			response.sendRedirect("displayScore.jsp");
 	}
 
 }
