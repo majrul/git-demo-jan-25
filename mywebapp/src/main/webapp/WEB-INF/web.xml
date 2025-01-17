@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>mywebapp</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  <error-page>
+    <error-code>404</error-code>
+    <location>/notfound.html</location>
+  </error-page>
+  <context-param>
+    <param-name>dbIPAddr</param-name>
+    <param-value>192.168.1.1</param-value>
+  </context-param>
   <servlet>
     <description></description>
     <display-name>HelloServlet</display-name>
@@ -11,15 +28,6 @@
     <servlet-name>HelloServlet</servlet-name>
     <url-pattern>/hello1</url-pattern>
   </servlet-mapping>
-  <display-name>mywebapp</display-name>
-  <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-    <welcome-file>index.htm</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-    <welcome-file>default.jsp</welcome-file>
-  </welcome-file-list>
   <servlet>
     <description></description>
     <display-name>CaptchaServlet</display-name>
@@ -40,4 +48,16 @@
     <servlet-name>LoginServlet</servlet-name>
     <url-pattern>/LoginServlet</url-pattern>
   </servlet-mapping>
+  <filter>
+    <display-name>HitCounterFilter</display-name>
+    <filter-name>HitCounterFilter</filter-name>
+    <filter-class>com.training.filter.HitCounterFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>HitCounterFilter</filter-name>
+    <url-pattern>/HitCounterFilter</url-pattern>
+  </filter-mapping>
+  <listener>
+    <listener-class>com.training.listener.SessionCountListener</listener-class>
+  </listener>
 </web-app>

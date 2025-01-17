@@ -30,6 +30,7 @@ public class HelloServlet extends HttpServlet {
 		out.write("<h1>Welcome to Servlet</h1>");
 		out.write("<h2>Requested URL " + request.getRequestURL() + "</h2>");
 		out.write("<h2>Today's Date " + LocalDate.now() + "</h2>");
+		out.write("<h3>DB IP Addr " + getServletContext().getInitParameter("dbIPAddr") + "</h3>");
 		out.write("</body></html>");
 	}
 
