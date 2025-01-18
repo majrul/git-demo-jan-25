@@ -15,6 +15,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.PathSegment;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import com.training.model.PassengerDetails;
@@ -149,6 +150,54 @@ public class LearningRestApiResource {
 		pnrDetails.setTrainNo(12121);
 		pnrDetails.setTravelDate(LocalDate.of(2025, 1, 31));
 		return pnrDetails;
+	}
+
+	//http://localhost:8080/my-rest-app/api/example/10?pnrNo=12345
+	@GET
+	@Path("/10")
+	public Response example10(@QueryParam("pnrNo") int pnrNo) {
+		PnrDetails pnrDetails = new PnrDetails();
+		pnrDetails.setPnrNo(pnrNo);
+		pnrDetails.setTrainNo(12121);
+		pnrDetails.setTravelDate(LocalDate.of(2025, 1, 31));
+	
+		return Response
+				.ok()
+				.entity(pnrDetails)
+				.type(MediaType.APPLICATION_JSON)
+				.header("cache-control", "no-cache")
+				.build();
+	}
+	
+	//content negotiation
+	//http://localhost:8080/my-rest-app/api/example/11/1234567890.json
+	@GET
+	@Path("/11/{pnrNo}.{format}")
+	public Response example11(@PathParam("pnrNo") int pnrNo, @PathParam("format") String format) {
+		
+		PnrDetails pnrDetails = new PnrDetails();
+		pnrDetails.setPnrNo(pnrNo);
+		pnrDetails.setTrainNo(12121);
+		pnrDetails.setTravelDate(LocalDate.of(2025, 1, 31));
+	
+		if(format.equals("xml"))
+			return Response
+					.ok()
+					.entity(pnrDetails)
+					.type(MediaType.APPLICATION_JSON)
+					.build();
+		else if(format.equals("csv"))
+			return Response
+					.ok()
+					.entity(pnrDetails)
+					.type("text/csv")
+					.build();
+		else
+			return Response
+					.ok()
+					.entity(pnrDetails)
+					.type(MediaType.APPLICATION_JSON)
+					.build();
 	}
 
 }
