@@ -3,6 +3,7 @@ package com.training.resource;
 import javax.ws.rs.GET;
 import javax.ws.rs.MatrixParam;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -37,5 +38,20 @@ public class LearningRestApiResource {
 		
 		return "Response from example02";
 	}
+	
+	//http://localhost:8080/my-rest-app/api/example/03/1001/John/20000
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/03/{empno}/{name}/{salary}")
+	public String example03(
+			@PathParam("empno") int empno,
+			@PathParam("name") String name,
+			@PathParam("salary") double salary) {
+		
+		System.out.println(empno + " , " + name + " , " + salary);
+		
+		return "Response from example03";
+	}
+	
 
 }
