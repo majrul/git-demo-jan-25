@@ -1,5 +1,7 @@
 package com.training.resource;
 
+import java.util.List;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.MatrixParam;
 import javax.ws.rs.Path;
@@ -7,6 +9,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.PathSegment;
 
 @Path("/example")
 public class LearningRestApiResource {
@@ -54,7 +57,7 @@ public class LearningRestApiResource {
 	}
 	
 
-	//http://localhost:8080/my-rest-app/api/example/03/1001/John/20000
+	//http://localhost:8080/my-rest-app/api/example/04/1001/John
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/04/{empno : \\d+}/{name : [a-zA-Z]*}") //Path Segment
@@ -67,5 +70,26 @@ public class LearningRestApiResource {
 		return "Response from example04";
 	}
 
-	
+	//http://localhost:8080/my-rest-app/api/example/05/1001/1002/1003/1004/1005/action/sendEmail
+	//http://localhost:8080/my-rest-app/api/example/05/1001;sendSMSAsWell=true/1002/1003;sendSMSAsWell=true/1004/1005/action/sendEmail
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/05/{empnos : .+}/action/{someAction}")
+	public String example05(
+			//@PathParam("empnos") String empnos,
+			//@PathParam("empnos") List<String> empnos, //this doesn't works
+			@PathParam("empnos") List<PathSegment> empnos,
+			@PathParam("someAction") String someAction) {
+		
+		//System.out.println(empnos + " , " + someAction);
+		for(PathSegment empno : empnos) {
+			System.out.println(empno.getPath());
+			System.out.println(empno.getMatrixParameters());
+		}
+		System.out.println(someAction);
+		
+		return "Response from example05";
+	}
+
+
 }
