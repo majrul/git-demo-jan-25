@@ -1,5 +1,7 @@
 package com.training.resource;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.BeanParam;
@@ -10,8 +12,15 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.PathSegment;
+import javax.ws.rs.core.UriInfo;
+
+import com.training.model.PassengerDetails;
+import com.training.model.PnrDetails;
+import com.training.model.PassengerDetails.Gender;
+import com.training.model.PassengerDetails.Status;
 
 @Path("/example")
 public class LearningRestApiResource {
@@ -103,6 +112,45 @@ public class LearningRestApiResource {
 		System.out.println(myBean);
 		return "Response from example06";
 	}
+	
+	//http://localhost:8080/my-rest-app/api/example/07/abc/xyz;param4=123?param3=456
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/07/{param1}/{param2}")
+	public String example07(@Context UriInfo uriInfo) {
+		
+		System.out.println(uriInfo.getPath());
+		System.out.println(uriInfo.getAbsolutePath());
+		System.out.println(uriInfo.getBaseUri());
+		System.out.println(uriInfo.getRequestUri());
+		
+		return "Response from example07";
+	}
+
+	//http://localhost:8080/my-rest-app/api/example/08?pnrNo=12345
+	@GET
+	@Produces(MediaType.APPLICATION_JSON) //If we try XML it's not working, what to do?
+	@Path("/08")
+	public PnrDetails example08(@QueryParam("pnrNo") int pnrNo) {
+		PnrDetails pnrDetails = new PnrDetails();
+		pnrDetails.setPnrNo(pnrNo);
+		pnrDetails.setTrainNo(12121);
+		pnrDetails.setTravelDate(LocalDate.of(2025, 1, 31));
+		return pnrDetails;
+	}
+	
+	//http://localhost:8080/my-rest-app/api/example/09?pnrNo=12345
+	@GET
+	@Produces("text/csv")
+	@Path("/09")
+	public PnrDetails example09(@QueryParam("pnrNo") int pnrNo) {
+		PnrDetails pnrDetails = new PnrDetails();
+		pnrDetails.setPnrNo(pnrNo);
+		pnrDetails.setTrainNo(12121);
+		pnrDetails.setTravelDate(LocalDate.of(2025, 1, 31));
+		return pnrDetails;
+	}
+
 }
 
 
