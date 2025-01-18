@@ -42,7 +42,7 @@ public class LearningRestApiResource {
 	//http://localhost:8080/my-rest-app/api/example/03/1001/John/20000
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
-	@Path("/03/{empno}/{name}/{salary}")
+	@Path("/03/{empno}/{name}/{salary}") //Path Segment
 	public String example03(
 			@PathParam("empno") int empno,
 			@PathParam("name") String name,
@@ -54,4 +54,18 @@ public class LearningRestApiResource {
 	}
 	
 
+	//http://localhost:8080/my-rest-app/api/example/03/1001/John/20000
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/04/{empno : \\d+}/{name : [a-zA-Z]*}") //Path Segment
+	public String example04(
+			@PathParam("empno") int empno,
+			@PathParam("name") String name) {
+		
+		System.out.println(empno + " , " + name);
+		
+		return "Response from example04";
+	}
+
+	
 }
