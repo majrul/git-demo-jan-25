@@ -3,6 +3,9 @@ package com.training.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+//@XmlRootElement
 public class PnrDetails {
 
 	private int pnrNo;
