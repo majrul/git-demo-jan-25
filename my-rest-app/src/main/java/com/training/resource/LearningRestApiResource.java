@@ -171,6 +171,8 @@ public class LearningRestApiResource {
 	
 	//content negotiation
 	//http://localhost:8080/my-rest-app/api/example/11/1234567890.json
+	//http://localhost:8080/my-rest-app/api/example/11/1234567890.csv
+	//http://localhost:8080/my-rest-app/api/example/11/1234567890.xml
 	@GET
 	@Path("/11/{pnrNo}.{format}")
 	public Response example11(@PathParam("pnrNo") int pnrNo, @PathParam("format") String format) {
@@ -184,7 +186,7 @@ public class LearningRestApiResource {
 			return Response
 					.ok()
 					.entity(pnrDetails)
-					.type(MediaType.APPLICATION_JSON)
+					.type(MediaType.APPLICATION_XML)
 					.build();
 		else if(format.equals("csv"))
 			return Response
