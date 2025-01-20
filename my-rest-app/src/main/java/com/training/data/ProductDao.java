@@ -24,6 +24,22 @@ public class ProductDao {
 		try { Class.forName("org.h2.Driver");  } catch(Exception e) { }
 	}
 	
+	public void add(Product product) {
+		try(Connection conn = DriverManager.getConnection("jdbc:h2:~/rest-api-training;AUTO_SERVER=true", "sa", "")) {
+			String sql = "insert into product(name, price, quantity) values(?, ?, ?)";
+			PreparedStatement st = conn.prepareStatement(sql);
+			st.setString(1, product.getName());
+			st.setDouble(2, product.getPrice());
+			st.setInt(3, product.getQuantity());
+			
+			st.executeUpdate();
+		}
+		catch(SQLException e) {
+			throw new ProductAccessException("Something went wrong", e);
+		}
+		
+	}
+
 	public Product fetchOne(int id) {
 		try(Connection conn = DriverManager.getConnection("jdbc:h2:~/rest-api-training;AUTO_SERVER=true", "sa", "")) {
 			String sql = "select * from product where id = ?";
