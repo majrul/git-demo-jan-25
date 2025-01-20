@@ -40,6 +40,23 @@ public class ProductDao {
 		
 	}
 
+	public void update(Product product) {
+		try(Connection conn = DriverManager.getConnection("jdbc:h2:~/rest-api-training;AUTO_SERVER=true", "sa", "")) {
+			String sql = "update product set name = ?, price = ?, quantity = ? where id = ?";
+			PreparedStatement st = conn.prepareStatement(sql);
+			st.setString(1, product.getName());
+			st.setDouble(2, product.getPrice());
+			st.setInt(3, product.getQuantity());
+			st.setInt(4, product.getId());
+			
+			st.executeUpdate();
+		}
+		catch(SQLException e) {
+			throw new ProductAccessException("Something went wrong", e);
+		}
+		
+	}
+
 	public Product fetchOne(int id) {
 		try(Connection conn = DriverManager.getConnection("jdbc:h2:~/rest-api-training;AUTO_SERVER=true", "sa", "")) {
 			String sql = "select * from product where id = ?";
