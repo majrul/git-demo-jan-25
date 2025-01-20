@@ -56,6 +56,20 @@ public class ProductDao {
 		}
 		
 	}
+	
+	public void delete(int id) {
+		try(Connection conn = DriverManager.getConnection("jdbc:h2:~/rest-api-training;AUTO_SERVER=true", "sa", "")) {
+			String sql = "delete from product where id = ?";
+			PreparedStatement st = conn.prepareStatement(sql);
+			st.setInt(1, id);
+			
+			st.executeUpdate();
+		}
+		catch(SQLException e) {
+			throw new ProductAccessException("Something went wrong", e);
+		}
+		
+	}
 
 	public Product fetchOne(int id) {
 		try(Connection conn = DriverManager.getConnection("jdbc:h2:~/rest-api-training;AUTO_SERVER=true", "sa", "")) {

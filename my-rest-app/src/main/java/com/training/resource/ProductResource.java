@@ -2,6 +2,7 @@ package com.training.resource;
 
 import java.util.List;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.PATCH;
 import javax.ws.rs.POST;
@@ -102,5 +103,14 @@ public class ProductResource {
 		return "Product updated successfully!";
 	}
 	
+	// http://localhost:8080/my-rest-app/api/product/delete/1
+	@DELETE
+	@Path("/delete/{id}")
+	public String delete(@PathParam("id")int id) {
+		ProductDao dao = new ProductDao();
+		dao.delete(id);
+		
+		return "Product deleted successfully!";
+	}
 	
 }
