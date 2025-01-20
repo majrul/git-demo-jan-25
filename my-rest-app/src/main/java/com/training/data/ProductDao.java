@@ -24,6 +24,28 @@ public class ProductDao {
 		try { Class.forName("org.h2.Driver");  } catch(Exception e) { }
 	}
 	
+	public Product fetchOne(int id) {
+		try(Connection conn = DriverManager.getConnection("jdbc:h2:~/rest-api-training;AUTO_SERVER=true", "sa", "")) {
+			String sql = "select * from product where id = ?";
+			PreparedStatement st = conn.prepareStatement(sql);
+			st.setInt(1, id);
+			ResultSet rs = st.executeQuery();
+			if(rs.next()) {
+				Product p = new Product();
+				p.setId(rs.getInt("id"));
+				p.setName(rs.getString("name"));
+				p.setPrice(rs.getDouble("price"));
+				p.setQuantity(rs.getInt("quantity"));
+				return p;
+			}
+			throw new ProductAccessException("Something went wrong");
+		}
+		catch(SQLException e) {
+			throw new ProductAccessException("Something went wrong", e);
+		}
+		
+	}
+
 	public List<Product> fetchAll() {
 		try(Connection conn = DriverManager.getConnection("jdbc:h2:~/rest-api-training;AUTO_SERVER=true", "sa", "")) {
 			String sql = "select * from product";

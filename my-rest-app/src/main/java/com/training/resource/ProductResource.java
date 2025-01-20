@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 
 import com.training.data.Product;
 import com.training.data.ProductDao;
@@ -18,4 +19,14 @@ public class ProductResource {
 		ProductDao dao = new ProductDao();
 		return dao.fetchAll();
 	}
+
+	// http://localhost:8080/my-rest-app/api/product/1
+	@GET
+	@Path("/{id}")
+	public Product get(@PathParam("id") int id) {
+		ProductDao dao = new ProductDao();
+		return dao.fetchOne(id);
+	}
+
+	
 }
