@@ -9,9 +9,12 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import com.training.data.Product;
 import com.training.data.ProductDao;
+import com.training.exception.ProductAccessException;
 import com.training.model.ProductDetails;
 
 @Path("/product")
@@ -33,6 +36,55 @@ public class ProductResource {
 		return dao.fetchOne(id);
 	}
 
+	
+	// http://localhost:8080/my-rest-app/api/product/get/1
+	@GET
+	@Path("/get/{id}")
+	public Response getv2(@PathParam("id") int id) {
+		try {
+			ProductDao dao = new ProductDao();
+			return  Response
+					.ok()
+					.entity(dao.fetchOne(id))
+					.type(MediaType.APPLICATION_JSON)
+					.build();
+		}
+		catch (ProductAccessException e) {
+			return  Response
+					.status(400)
+					.entity(new Status(false, e.getMessage()))
+					.type(MediaType.APPLICATION_JSON)
+					.build();
+		}
+	}
+
+	public static class Status {
+		private boolean status;
+		private String messageIfAny;
+		
+		public Status() {
+		}
+		public Status(boolean status, String messageIfAny) {
+			super();
+			this.status = status;
+			this.messageIfAny = messageIfAny;
+		}
+		public boolean isStatus() {
+			return status;
+		}
+		public void setStatus(boolean status) {
+			this.status = status;
+		}
+		public String getMessageIfAny() {
+			return messageIfAny;
+		}
+		public void setMessageIfAny(String messageIfAny) {
+			this.messageIfAny = messageIfAny;
+		}
+		
+		
+	}
+	
 	// http://localhost:8080/my-rest-app/api/product/add
 	// In the body, send the product data as a json from POSTman or any other tool
 	/*
