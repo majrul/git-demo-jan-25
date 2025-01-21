@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,15 +25,19 @@ public class ProductDao {
 		try { Class.forName("org.h2.Driver");  } catch(Exception e) { }
 	}
 	
-	public void add(Product product) {
+	public int add(Product product) {
 		try(Connection conn = DriverManager.getConnection("jdbc:h2:~/rest-api-training;AUTO_SERVER=true", "sa", "")) {
 			String sql = "insert into product(name, price, quantity) values(?, ?, ?)";
-			PreparedStatement st = conn.prepareStatement(sql);
+			PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			st.setString(1, product.getName());
 			st.setDouble(2, product.getPrice());
 			st.setInt(3, product.getQuantity());
 			
 			st.executeUpdate();
+			
+			ResultSet rs = st.getGeneratedKeys();
+			rs.next();
+			return rs.getInt(1);
 		}
 		catch(SQLException e) {
 			throw new ProductAccessException("Something went wrong", e);

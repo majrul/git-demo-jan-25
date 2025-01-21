@@ -1,5 +1,6 @@
 package com.training.resource;
 
+import java.net.URI;
 import java.util.List;
 
 import javax.ws.rs.DELETE;
@@ -9,8 +10,11 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Link;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 import com.training.data.Product;
 import com.training.data.ProductDao;
@@ -31,7 +35,7 @@ public class ProductResource {
 	// http://localhost:8080/my-rest-app/api/product/1
 	@GET
 	@Path("/{id}")
-	public Product get(@PathParam("id") int id) {
+	public Product getProduct(@PathParam("id") int id) {
 		ProductDao dao = new ProductDao();
 		return dao.fetchOne(id);
 	}
@@ -101,6 +105,64 @@ public class ProductResource {
 		dao.add(product);
 		return "Product added successfully!";
 	}
+	
+	//trying to implement HATEOAS
+	@POST
+	@Path("/add/hateoas/single")
+	public Response addv2(Product product, @Context UriInfo uriInfo) {
+		ProductDao dao = new ProductDao();
+		int id = dao.add(product);
+		
+		URI uri = uriInfo
+					.getBaseUriBuilder() //http://localhost:8080/my-rest-app/api
+					.path(ProductResource.class) // /product
+					.path(ProductResource.class, "getProduct") // /{id}
+					.build(id); //substituting {id} with actual value
+		
+		return Response
+				.created(uri) //201 HTTP Status Code
+				.entity("Product added successfully!")
+				.type(MediaType.TEXT_PLAIN)
+				.build();
+	}
+	
+	@POST
+	@Path("/add/hateoas/multiple")
+	public Response addv3(Product product, @Context UriInfo uriInfo) {
+		ProductDao dao = new ProductDao();
+		int id = dao.add(product);
+		
+		URI uri1 = uriInfo
+					.getBaseUriBuilder() //http://localhost:8080/my-rest-app/api
+					.path(ProductResource.class) // /product
+					.path(ProductResource.class, "getProduct") // /{id}
+					.build(id); //substituting {id} with actual value
+		
+		Link link1 = Link
+						.fromUri(uri1)
+						.rel("Get Product By ID")
+						.build();
+		
+		URI uri2 = uriInfo
+					.getBaseUriBuilder() //http://localhost:8080/my-rest-app/api
+					.path(ProductResource.class) // /product
+					.path(ProductResource.class, "getAll") // /all
+					.build();
+	
+		Link link2 = Link
+					.fromUri(uri2)
+					.rel("Get All Products")
+					.build();
+		
+		
+		return Response
+				.ok()
+				.links(link1, link2)
+				.entity("Product added successfully!")
+				.type(MediaType.TEXT_PLAIN)
+				.build();
+	}
+
 	
 	// http://localhost:8080/my-rest-app/api/product/update
 	// In the body, send the product data as a json from POSTman or any other tool
