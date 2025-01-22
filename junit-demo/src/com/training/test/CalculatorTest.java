@@ -1,9 +1,10 @@
 package com.training.test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.*;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Timeout;
 
 import com.training.demo.Calculator;
 
@@ -11,11 +12,17 @@ class CalculatorTest {
 
 	@Test
 	void test_if_add_is_working_or_not() {
+		//given
 		Calculator c = new Calculator();
+		
+		//when
 		int actualResult = c.add(10, 20);
 		int expectedResult = 30;
 		
+		//then
 		assertEquals(expectedResult, actualResult);
+		
+		assertThat(expectedResult, is(equalTo(actualResult)));
 		
 		// NO NO NO NO NO NO NO
 		// no println in our test cases
