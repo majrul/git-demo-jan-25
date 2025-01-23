@@ -9,10 +9,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
-import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.function.Executable;
 
 import com.training.demo.BMI;
@@ -20,16 +19,24 @@ import com.training.demo.BMICalculator;
 import com.training.demo.BMIException;
 import com.training.demo.Person;
 
-
-@TestMethodOrder(OrderAnnotation.class)
-public class BMITest {
+public class BMITest2 {
+	
+	//private BMI bmi;
+	
+	/*@BeforeEach
+	public void init() {
+		bmi = new BMICalculator();
+	}*/
+	
+	private static BMI bmi;
+	
+	@BeforeAll
+	public static void init() {
+		bmi = new BMICalculator();
+	}
 
 	@Test
-	@Order(1)
-	//@RepeatedTest(5)
 	public void calculateBMI_ShouldReturnExpectedValue() {
-		BMI bmi = new BMICalculator();
-
 		//given
 		Person p = new Person(70, 1.7);
 		
@@ -42,14 +49,9 @@ public class BMITest {
 	}
 	
 	@Test
-	@Order(2)
 	public void calculateBMI_ShouldThrowBMIException() {
-		BMI bmi = new BMICalculator();
-
 		//given
 		Person p = new Person(0, 1.7);
-		
-		bmi.calculateBMI(p);
 		
 		//when
 		Executable e = ()-> bmi.calculateBMI(p);
@@ -59,10 +61,7 @@ public class BMITest {
 	}
 
 	@Test
-	@Order(3)
 	public void isDietRecommended_ShouldReturnTrue() {
-		BMI bmi = new BMICalculator();
-
 		//given
 		Person p = new Person(80, 1.7);
 		
@@ -74,10 +73,7 @@ public class BMITest {
 	}
 	
 	@Test
-	@Order(4)
 	public void isDietRecommended_ShouldReturnFalse() {
-		BMI bmi = new BMICalculator();
-
 		//given
 		Person p = new Person(70, 1.7);
 		
@@ -90,8 +86,6 @@ public class BMITest {
 	
 	@Test
 	public void getBMIValues_ShouldReturn_ExpectedResult() {
-		BMI bmi = new BMICalculator();
-
 		//given
 		List<Person> persons = new ArrayList<Person>();
 		persons.add(new Person(70, 1.7));
@@ -108,8 +102,6 @@ public class BMITest {
 	
 	@Test
 	public void findPersonWithLowestBMI_ShouldReturn_ExpectedResult() {
-		BMI bmi = new BMICalculator();
-
 		//given
 		List<Person> persons = new ArrayList<Person>();
 		persons.add(new Person(70, 1.7));

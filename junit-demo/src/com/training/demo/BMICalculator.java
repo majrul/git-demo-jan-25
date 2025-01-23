@@ -5,6 +5,10 @@ import java.util.List;
 
 public class BMICalculator implements BMI {
 
+	public BMICalculator() {
+		System.out.println("constr..");
+	}
+	
 	@Override
 	public double calculateBMI(Person person) {
 		double weight = person.getWeight();
