@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import com.training.demo.Calculator;
 
-class CalculatorTest {
+public class CalculatorTest {
 
 	@Test
 	void test_if_add_is_working_or_not() {
