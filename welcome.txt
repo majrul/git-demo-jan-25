@@ -1,1 +1,2 @@
 Welcome to learning Git
+Git is very powerful
