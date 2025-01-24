@@ -1,5 +1,6 @@
 Welcome to learning Git
 Git is very powerful
 This line was added by Dev2
+This message was added by Dev1
 Github is a free to use remote repository for git
 Some change
