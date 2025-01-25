@@ -4,6 +4,6 @@ This line was added by the bugfix branch
 This line was added by Dev2
 This message was added by Dev1
 Github is a free to use remote repository for git
-Some change
+Some change again here
 Some change done in the bugfix branch
 One more change done in the bugfix branch
