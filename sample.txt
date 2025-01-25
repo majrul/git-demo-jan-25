@@ -3,5 +3,5 @@ Dev1 added this line
 Dev2 added this line
 Git is used for effective collaboration
 Some change
-
 We are learning branching in Git
+Some change in this file to fix the bug
